@@ -16,43 +16,6 @@ class GeneralSpider(scrapy.Spider):
     start_urls = [
        'http://www.ndrc.gov.cn/xwzx/xwfb/',  # 新闻发布中心-新闻发布
        'http://www.ndrc.gov.cn/xwzx/wszb/',  # 新闻发布中心-网上直播
-        """
-       'http://www.ndrc.gov.cn/fzgggz/fzgh/zhdt/',  # 发展改革工作-发展规划-综合情况
-       # 'http://www.ndrc.gov.cn/fzgggz/fzgh/ghwb/gjjh/',  # 发展改革工作-发展规划-规划文本-国家总体规划
-       # 'http://www.ndrc.gov.cn/fzgggz/fzgh/ghwb/ztgngh/',  # 发展改革工作-发展规划-规划文本-主体功能区规划
-       # 'http://www.ndrc.gov.cn/fzgggz/fzgh/ghwb/gjjgh/',  # 发展改革工作-发展规划-规划文本-国家级专项规划
-       # 'http://www.ndrc.gov.cn/fzgggz/fzgh/ghwb/dfztgh/',  # 发展改革工作-发展规划-规划文本-地方总体规划
-       'http://www.ndrc.gov.cn/fzgggz/fzgh/zcfg/',  # 发展改革工作-发展规划-政策法规
-       'http://www.ndrc.gov.cn/fzgggz/hgjj/',  # 发展改革工作-宏观经济
-       'http://www.ndrc.gov.cn/fzgggz/jjyx/zhdt/',  # 发展改革工作>经济运行>综合情况
-       'http://www.ndrc.gov.cn/fzgggz/jjyx/gjyx/',  # 发展改革工作>经济运行>宏观经济运行
-       'http://www.ndrc.gov.cn/fzgggz/jjyx/mtzhgl/',  # 发展改革工作>经济运行>煤电油气运
-       'http://www.ndrc.gov.cn/fzgggz/jjyx/xdwl/',  # 发展改革工作>经济运行>现代物流
-       'http://www.ndrc.gov.cn/fzgggz/jjyx/yjxt/',  # 发展改革工作>经济运行>应急管理
-       'http://www.ndrc.gov.cn/fzgggz/tzgg/zhdt/',  # 发展改革工作>体制改革>综合情况
-       'http://www.ndrc.gov.cn/fzgggz/tzgg/ggkx/',  # 发展改革工作>体制改革>改革快讯
-       'http://www.ndrc.gov.cn/fzgggz/gdzctz/tzgz/',  # 发展改革工作>固定资产投资>投资工作
-       'http://www.ndrc.gov.cn/fzgggz/gdzctz/tzfg/',  # 发展改革工作>固定资产投资>投资法规
-       'http://www.ndrc.gov.cn/fzgggz/wzly/zhdt/',  # 发展改革工作>外资利用>综合情况
-       'http://www.ndrc.gov.cn/fzgggz/wzly/jwtz/jwtzgk/',  # 发展改革工作>外资利用>境外投资>发展情况
-       'http://www.ndrc.gov.cn/fzgggz/wzly/jwtz/jwtzzl/',  # 发展改革工作>外资利用>境外投资>国别资料
-       'http://www.ndrc.gov.cn/fzgggz/wzly/wstz/wstzgk/',  # 发展改革工作>外资利用>外商投资>外商投资情况
-       'http://www.ndrc.gov.cn/fzgggz/wzly/wstz/wstzqk/',  # 发展改革工作>外资利用>外商投资>开发区情况
-       'http://www.ndrc.gov.cn/fzgggz/wzly/wzgl/',  # 发展改革工作>外资利用>外债管理
-       # 'http://www.ndrc.gov.cn/fzgggz/wzly/zcfg/',  # 发展改革工作>外资利用>政策法规
-       'http://www.ndrc.gov.cn/fzgggz/dqjj/zhdt/',  # 发展改革工作>地区经济>综合情况  未完成！！！
-       'http://www.ndrc.gov.cn/fzgggz/dqjj/qygh/',  # 发展改革工作>地区经济>区域规划和区域政策
-       'http://www.ndrc.gov.cn/fzgggz/dqjj/fpkf/',  # 发展改革工作>地区经济>扶贫开发
-       'http://www.ndrc.gov.cn/fzgggz/dqjj/dkzy/',  # 发展改革工作>地区经济>对口支援
-       'http://www.ndrc.gov.cn/fzgggz/ncjj/zhdt/',  # 发展改革工作>农村经济>综合情况
-       'http://www.ndrc.gov.cn/fzgggz/ncjj/nczc/',  # 发展改革工作>农村经济>农村政策
-       'http://www.ndrc.gov.cn/fzgggz/ncjj/njxx/',  # 发展改革工作>农村经济>农经信息
-       'http://www.ndrc.gov.cn/fzgggz/nyjt/zhdt/',  # 发展改革工作>基础产业>综合情况
-       'http://www.ndrc.gov.cn/fzgggz/nyjt/fzgh/',  # 发展改革工作>基础产业>政策规划
-       'http://www.ndrc.gov.cn/fzgggz/nyjt/zdxm/',  # 发展改革工作>基础产业>重大工程
-       'http://www.ndrc.gov.cn/fzgggz/gyfz/gyfz/',  # 发展改革工作>产业发展>工业发展
-       'http://www.ndrc.gov.cn/fzgggz/gyfz/fwyfz/',  # 发展改革工作>产业发展>服务业发展
-       """
        'http://gjss.ndrc.gov.cn/gjsgz/',  # 高技术产业司>高技术工作
        'http://gjss.ndrc.gov.cn/gzdtx/',  # 高技术产业司>发展动态
        'http://gjss.ndrc.gov.cn/ghzc/',  # 高技术产业司>政策发布
@@ -79,7 +42,6 @@ class GeneralSpider(scrapy.Spider):
        'http://cjs.ndrc.gov.cn/shxytxjs/gzjl/',  # 信用建设>工作交流
        'http://www.ndrc.gov.cn/fzgggz/jggl/zhdt/',  # 发展改革工作>价格管理>综合情况
        # 'http://www.ndrc.gov.cn/fzgggz/jggl/zcfg/',  # 发展改革工作>价格管理>政策法规
-
        'http://www.ndrc.gov.cn/zwfwzx/tztg/',  # 政务服务中心>通知通告
        'http://www.ndrc.gov.cn/zwfwzx/xzxknew/',  # 政务服务中心>行政许可
        # 'http://www.ndrc.gov.cn/zwfwzx/xzzq/bgxz/',  # 政务服务中心>下载专区>表格下载
