@@ -1,3 +1,4 @@
+# 百度图像识别引擎，在发改委爬虫中未使用
 from aip import AipOcr
 
 config = {
@@ -25,8 +26,3 @@ def img_to_str_net(url):
     result = client.basicGeneralUrl(url)
     if 'words_result' in result:
         return ' '.join([w['words'] for w in result['words_result']])
-
-
-# print(type(img_to_str_net('http://zfxxgk.nea.gov.cn/auto93/201806/W020180629331250434030.jpg')))
-# print(img_to_str('/Users/chenhaolin/PycharmProjects/SRT/IMAGES/full/国家能源局_first 国务院扶贫办关于下达十三五”第一批光伏扶贫项目计划的通知/W020180104619948696131.jpg'))
-

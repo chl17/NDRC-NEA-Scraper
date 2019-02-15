@@ -9,7 +9,7 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'NDRC'
+BOT_NAME = 'NDRC'   # 爬虫名称
 
 SPIDER_MODULES = ['NDRC.spiders']
 NEWSPIDER_MODULE = 'NDRC.spiders'
@@ -27,13 +27,16 @@ USER_AGENT = 'User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) Appl
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
+# mongoDB 信息
 MONGO_URI = 'localhost'
 MONGO_PORT = 27017
 MONGO_DB = 'NDRC'
 
+# 文件存储地址
 IMAGES_STORE = './IMAGES'
 FILES_STORE = './FILES'
 
+# Splash 信息
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 SPLASH_URL = 'http://localhost:8050'
 HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
@@ -45,6 +48,7 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 
+# 爬页面延时
 DOWNLOAD_DELAY = 0.2
 
 # The download delay setting will honor only one of:

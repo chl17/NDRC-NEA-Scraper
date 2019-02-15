@@ -1,3 +1,5 @@
+# elasticsearch API接口
+
 from datetime import datetime
 from elasticsearch_dsl import Date, Nested, Boolean, \
     analyzer, Completion, Keyword, Text, Integer, Document
@@ -5,10 +7,10 @@ from elasticsearch_dsl import Date, Nested, Boolean, \
 # 更多字段类型见第三百六十四节elasticsearch(搜索引擎)的mapping映射管理
 
 from elasticsearch_dsl.connections import connections       # 导入连接elasticsearch(搜索引擎)服务器方法
-connections.create_connection(hosts=['127.0.0.1'])
+connections.create_connection(hosts=['127.0.0.1'])          # 连接 elasticsearch
 
 
-def gen_suggests(es_connection, index, info_tuple):
+def gen_suggests(es_connection, index, info_tuple):         # 生成搜索建议
     es = es_connection
     # 根据字符串生成搜索建议数组
     used_words = set()
@@ -26,9 +28,10 @@ def gen_suggests(es_connection, index, info_tuple):
 
         if new_words:
             suggests.append({"input": list(new_words), "weight": weight})
-    return suggests  # 返回字典
+    return suggests  # 返回为字典格式
 
 
+# 生成一个要写入 es 的条目
 class ndrcType(Document):                                                   # 自定义一个类来继承DocType类
     # Text类型需要分词，所以需要知道中文分词器，ik_max_wordwei为中文分词器
     name = "国家发改委"           # 国家发改委

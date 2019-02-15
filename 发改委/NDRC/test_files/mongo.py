@@ -1,3 +1,4 @@
+# mongoDB 写入测试函数，在此程序中无用
 import pymongo
 from datetime import *
 # 读取一个 collection 中所有 content 和 file_content 组合输出string
@@ -30,7 +31,7 @@ def readcontentstring(collection0):
             for imagecontentline in record['file_content']:
                 list0.append(imagecontentline)
     if list0:
-        return '\n'.join(str(s) for s in list0 if s not in [None])  # 太强了！ join 出错 ，排了一个小时
+        return '\n'.join(str(s) for s in list0 if s not in [None])  # 曾 join 出错，已排除
 
 
 def readcontentstringtest(collection):
@@ -70,7 +71,3 @@ def renameall():
     db.通知.rename('通知 ' + date_time)
     db.公告.rename('公告 ' + date_time)
 
-
-# coll = '最新文件2018-07-07 22:54:36'
-# contentlist = readcontentstring(coll)
-# print(contentlist)

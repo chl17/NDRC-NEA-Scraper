@@ -13,15 +13,15 @@ from elasticsearch_dsl.connections import connections       # 导入连接elasti
 es_connection = connections.create_connection(hosts=['127.0.0.1'])
 
 
-class NDRCItemLoader(ItemLoader):
+class NDRCItemLoader(ItemLoader):  # 实现写入 es 的类（作用未知，应为数据处理函数TakeFirst）
     default_output_processor = TakeFirst()
 
 
 def addval(value):                                 # 自定义数据预处理函数
-    return value                                    # 将处理后的数据返给Item
+    return value                                    # 将处理后的数据返给Item，现在不作处理直接返回
 
 
-class NdrcItem(scrapy.Item):
+class NdrcItem(scrapy.Item):        # 发改委 item
     # define the fields for your item here like:
     # name = scrapy.Field()
     title = scrapy.Field(input_processor=MapCompose(addval))  # 接收爬虫获取到的title信息 inputprocessor 处理数据后返回
@@ -41,7 +41,7 @@ class NdrcItem(scrapy.Item):
     class3 = scrapy.Field()
     website = scrapy.Field()
 
-    def save_to_es(self):
+    def save_to_es(self):           # 写入 es 的函数
         ndrc_element = ndrcType()  # 实例化elasticsearch(搜索引擎对象)
         ndrc_element.title = self['title']  # 字段名称=值
         ndrc_element.content = self['content']
@@ -59,7 +59,7 @@ class NdrcItem(scrapy.Item):
         ndrc_element.class3 = self['class3']
         ndrc_element.website = self['website']
 
-        if self['file_content']:
+        if self['file_content']:          # 根据 title， content， file_content 的权重生成搜索建议
             ndrc_element.suggest = gen_suggests(es_connection, ndrcType.name,
                                                 ((ndrc_element.title, 10), (ndrc_element.file_content, 7),
                                                  (ndrc_element.content, 8)))  # ndrcType.Index.name

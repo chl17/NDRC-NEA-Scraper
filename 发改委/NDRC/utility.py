@@ -22,7 +22,7 @@ import time
 import os
 
 
-def cleanattachment(list):  # 清除链接和 mailto
+def cleanattachment(list):  # 清理附件地址，清除链接和 mailto
     attachment = []
     for link in list:
         if link.find('pdf') + 1 or link.find('doc') + 1 or link.find('xls') + 1 or link.find('xlsx') + 1 or \
@@ -241,102 +241,3 @@ def pdf2text(file_path):
     output_text = os.popen(cmd)
     return output_text.read()
 
-
-"""
-file_path = ['/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/FILES/test2.pdf']
-content = extract_text(file_path)
-print(str(content).strip())
-print('\n')
-print(type(content))
-
-"""
-
-"""
-command = 'python3 ' + '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/pdf2txt.py ' \
-          + '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/FILES/test7.pdf'
-output = os.popen(command)
-print(output.read())
-"""
-
-'''
-paths = ['/test1.pdf',
-         '/test2.pdf',
-         '/test3.pdf',
-         '/test4.pdf',
-         '/test5.pdf',
-         '/test6.pdf',
-         '/test7.pdf',
-         '/test8.pdf',
-         '/test9.pdf',
-         '/test10.pdf']
-content_para = readattachment(paths)
-for content0 in content_para:
-    # print(content + '\n' + '*' * 50)
-    print(content0)
-    print('\n' + '*' * 50)
-'''
-
-"""
-
-paths = ['/test.doc',
-         '/test.docx',
-         '/test.pdf',
-         '/test_xls.xls',
-         '/test_xlsx.xlsx',]
-content_para = readattachment(paths)
-for content0 in content_para:
-    # print(content + '\n' + '*' * 50)
-    print(content0)
-    print('\n' + '*' * 50)
-"""
-
-"""
-
-file_path = ['/test.pdf']
-data = readattachment(file_path)
-print(data)
-"""
-
-"""
-file_path = '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/FILES/test.pdf'
-print(readPDF(file_path))
-print(type(readPDF(file_path)))
-"""
-
-"""
-file_path = '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/FILES/2017-08-10_十三五”水利科技创新规划/W020170810372162276685.doc'
-if file_path.find('doc') > 0 and (not (file_path.find('docx') > 0)):
-    file_path = file_path
-    print('1')
-    print(readdoc(file_path))
-"""
-
-"""
-word = "test.doc"
-output = subprocess.check_output(["/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/antiword", word])
-a = output.decode('utf-8')
-print(a)
-"""
-
-
-
-
-
-"""
-item = ['0', '1', '2', '3', '4', '5', '6', '7']
-try:
-    if item[9]:
-        print('s')
-except IndexError:
-    pass
-
-
-list0 = ['mailto:fgwwhkl@163.com', './W020180717396249402008.docx', 'http://baidu.com']
-list1 = cleanattachment(list0)
-print(list1)
-
-link0 = 'mailto:fgwwhkl@163.com'
-link1 = './W020180717396249402008.docx'
-print(link0.find('mailto'))
-print(link1.find('mailto'))
-"""

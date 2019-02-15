@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
+# 爬虫主程序
 # 社会发展司存在问题
 import scrapy
 from 发改委.NDRC.items import NdrcItem
 from 发改委.NDRC.date import *
 from 发改委.NDRC.utility import *
 from scrapy_splash import SplashRequest
-from scrapy.utils.request import request_fingerprint
+from scrapy.utils.request import request_fingerprint                                                        # 用于 deltafetch 提取网页指纹信息
 count = 0  # count 需重新设计
 USER_AGENT = {'headers': 'User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) '
-                         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'}
+                         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'}        # 用户代理信息
 
-class GeneralSpider(scrapy.Spider):
-    name = "NDRC_general"
-    allowed_domains = ['ndrc.gov.cn', 'gjss.ndrc.gov.cn']
-    start_urls = [
+
+class GeneralSpider(scrapy.Spider):                                                                         # 爬虫类
+    name = "NDRC_general"           # 爬虫名称
+    allowed_domains = ['ndrc.gov.cn', 'gjss.ndrc.gov.cn']       # 允许爬取的域名
+    start_urls = [                                              # 爬取开始链接
        'http://www.ndrc.gov.cn/xwzx/xwfb/',  # 新闻发布中心-新闻发布
        'http://www.ndrc.gov.cn/xwzx/wszb/',  # 新闻发布中心-网上直播
        'http://gjss.ndrc.gov.cn/gjsgz/',  # 高技术产业司>高技术工作
@@ -60,12 +62,12 @@ class GeneralSpider(scrapy.Spider):
 
     ]  # 发展改革工作>价格管理>价格监测 专题专栏 政府信息公开目录 社会发展司存在问题
 
-    def start_requests(self):
+    def start_requests(self):       # 调用 Splash 对网页进行加载
         for url in self.start_urls:
             yield SplashRequest(url, callback=self.parse, splash_headers=USER_AGENT)
 
-    def parse(self, response):
-        linklist_raw = response.xpath('//div[@class="box1 "]//ul[@class="list_02 clearfix"]//li//a/@href').extract()
+    def parse(self, response):      # 一级网页解析（目录页）
+        linklist_raw = response.xpath('//div[@class="box1 "]//ul[@class="list_02 clearfix"]//li//a/@href').extract()        # 用到了 XPath 的知识
         titlelist = response.xpath('//div[@class="box1 "]//ul[@class="list_02 clearfix"]//li//a/text()').extract()
         linklist = []
         for link in linklist_raw:
@@ -76,11 +78,11 @@ class GeneralSpider(scrapy.Spider):
             for i in range(len(linklist)):
                 if not (linklist[i].endswith('html') or linklist[i].endswith('htm')):
                     print('***' + linklist[i])
-                    yield scrapy.Request(url=linklist[i], callback=self.parse_content,
-                                         meta={'date': datelist[i], 'title': titlelist[i],
+                    yield scrapy.Request(url=linklist[i], callback=self.parse_content,              # 通过 callback（回调）调用二级网页分析函数
+                                         meta={'date': datelist[i], 'title': titlelist[i],      # 元数据，能传参到 parse_content
                                                'class0': determine_class0(response.url),
                                                'class1': determine_class1(response.url)},
-                                         headers={"User-Agent": USER_AGENT, "Referer": response.url})
+                                         headers={"User-Agent": USER_AGENT, "Referer": response.url})       # 网页头信息
                 else:
                     yield SplashRequest(url=linklist[i], callback=self.parse_content,
                                         meta={'date': datelist[i], 'title': titlelist[i],
@@ -89,7 +91,7 @@ class GeneralSpider(scrapy.Spider):
                                               "deltafetch_key": request_fingerprint(response.request)},  # 增量传递指纹
                                         splash_headers={"User-Agent": USER_AGENT, "Referer": response.url})
 
-            next = response.urljoin(response.xpath('//li//a[text()="下一页"]/@href').extract_first())
+            next = response.urljoin(response.xpath('//li//a[text()="下一页"]/@href').extract_first())      # 下一个目录页， 也即"下一页"对应的链接
         except IndexError:  # 两种目录网页结构
             datelist = response.xpath('//li//font/text()').extract()
             for i in range(len(linklist)):
@@ -107,11 +109,11 @@ class GeneralSpider(scrapy.Spider):
         """
         yield SplashRequest(url=next, callback=self.parse, splash_headers=USER_AGENT)
 
-    def parse_content(self, response):
+    def parse_content(self, response):      # 二级网页解析（正文页）
         title = response.meta['title']
         date = response.meta['date']
         try:
-            paralist_raw = response.xpath('//div[@class="txt1"]//text()').extract()
+            paralist_raw = response.xpath('//div[@class="txt1"]//text()').extract()     # 未经处理的段落
             paralist = []
             for para in paralist_raw:  # 过滤段落内容
                 if para == '\xa0' or para == '\u3000\u3000' or para == '\n\t\t\t\t\t\t\t\t' or para == '':
@@ -120,8 +122,8 @@ class GeneralSpider(scrapy.Spider):
                     para_stripped = para.strip()
                     if para_stripped != '':
                         paralist.append(para.strip())
-            item = NdrcItem()
-            item['class0'] = response.meta['class0']
+            item = NdrcItem()                           # 初始化一个item对象，一个 item 就是我们要保存的文章信息
+            item['class0'] = response.meta['class0']    # item 的各个信息
             item['class1'] = response.meta['class1']
             item['class2'] = ''
             item['class3'] = ''
@@ -132,18 +134,18 @@ class GeneralSpider(scrapy.Spider):
             item['file_content'] = []
             item['title'] = title
             item['date'] = date
-            date_struct = datetime.datetime.strptime(date, "%Y/%m/%d")
+            date_struct = datetime.datetime.strptime(date, "%Y/%m/%d")  # 解析日期格式
             item['year'] = date_struct.year
             item['month'] = date_struct.month
             item['day'] = date_struct.day
             item['content'] = ' '.join(paralist)  # save as str
             item['url'] = response.url
             item['website'] = '国家发改委'
-            if response.xpath('//p//img/@src').extract_first():
+            if response.xpath('//p//img/@src').extract_first():     # 获取图片
                 for image in response.xpath('//p//img/@src').extract():
                     image = response.urljoin(image)
                     item['image_urls'].append(image)
-            if response.xpath('//div[@class="txt1"]//@href').extract_first():
+            if response.xpath('//div[@class="txt1"]//@href').extract_first():       # 获取附件
                 attachments = response.xpath('//div[@class="txt1"]//@href').extract()
                 attachments_cleaned = cleanattachment(attachments)
                 attachments_joined = []

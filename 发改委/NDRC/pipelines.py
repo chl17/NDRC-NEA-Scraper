@@ -27,12 +27,11 @@ class NdrcPipeline(object):
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
-            mongo_uri=crawler.settings.get('MONGO_URI'),
+            mongo_uri=crawler.settings.get('MONGO_URI'),        # 从设置settings.py获取设置信息方法
             mongo_db=crawler.settings.get('MONGO_DB')
         )
 
-    def open_spider(self, spider):
-
+    def open_spider(self, spider):      # 连接mongoDB
         CollectionName = '测试'  # + date_time
         self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
@@ -41,15 +40,15 @@ class NdrcPipeline(object):
     def process_item(self, item, spider):
         if isinstance(item, NdrcItem):
             data = dict(item)
-            self.Collection.insert(data)
+            self.Collection.insert(data)        # 保存到 mongoDB
             item.save_to_es()                   # 保存到 es
             return item
 
     def close_spider(self, spider):
-        self.client.close()
+        self.client.close()             # 关闭mongoDB连接
 
 
-class FilePipeline(FilesPipeline):
+class FilePipeline(FilesPipeline):      # 文件下载处理
 
     def file_path(self, request, response=None, info=None):
         item = request.meta['item']
@@ -77,7 +76,7 @@ class FilePipeline(FilesPipeline):
                 yield scrapy.Request(file_address, meta={'item': item, 'referer': referer})
 
 
-class ImagePipeline(ImagesPipeline):
+class ImagePipeline(ImagesPipeline):        # 图像下载处理
 
     def file_path(self, request, response=None, info=None):
         item = request.meta['item']

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# 读取PDF程序，使用方法："pdf2txt.py PDF文件地址"，控制台输出解析结果
 """
 Converts PDF text content (though not images containing text) to plain text, html, xml or "tags".
 """
