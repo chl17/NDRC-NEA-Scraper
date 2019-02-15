@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 *.py linguist-language=python
+=======
+*.py linguist-language=python
+>>>>>>> origin/master
