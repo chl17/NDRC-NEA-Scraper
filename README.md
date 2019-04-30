@@ -37,7 +37,7 @@ Scrapy
 并保存至数据库:
 
 1. MongoDB（NoSQL数据库）
-1. ElasticSearch（搜索引擎后端数据库）
+1. Elasticsearch（搜索引擎后端数据库）
 
 ### 细节
 
@@ -45,13 +45,13 @@ Scrapy
 1. 使用百度AI平台对文件扫描件进行图像识别
 1. 读取附件防阻塞，读取大型超过设定时间
 
-# ElasticSearch搜索引擎
+# Elasticsearch搜索引擎
 
 一个开源的分布式实时全文搜索引擎。
 
 接受Scrapy写入数据时进行中文分词并根据文章标题、正文、附件内容生成搜索建议。
 
-## ElasticSearch-RTF
+## Elasticsearch-RTF
 
 [https://github.com/medcl/elasticsearch-rtf](ElasticSearch-RTF)
 
@@ -60,6 +60,7 @@ Scrapy
 一个开源的ElasticSearch搜索引擎前端。
 
 官方网站：[https://opensource.appbase.io/reactivesearch/](https://opensource.appbase.io/reactivesearch/)
+
 GitHub：[https://github.com/appbaseio/reactivesearch](https://github.com/appbaseio/reactivesearch)
 
 多种可自定义模块，包括搜索框，过滤器（日期、内容）等等，详情在官网和GitHub的介绍中
