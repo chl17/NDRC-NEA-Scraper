@@ -2,6 +2,7 @@
 import docx
 # .doc
 import subprocess
+from win32com import client     # Windows, requiring MS WOrd
 # .pdf
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
@@ -142,29 +143,37 @@ def readattachment(file_paths):
         # .doc
         if file_path.endswith('.doc'):
             try:
+                """                                 # macOS, requiring Antiword
                 textlist = []
                 word = file_path
                 output = subprocess.check_output(["/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/antiword", word])
                 text = output.decode('utf-8')
                 textlist.append(text.strip())
                 content_all.append('\n'.join(textlist))
+                """
+                doc2docx(file_path)                 # Windows, requiring MS Word
+                doc = docx.Document(file_path + 'x')
+                content = []
+                for para in doc.paragraphs:
+                    content.append(para.text)
+                content_all.append(content)
             except:
                 content_all.append(file_path + ' 读取错误!')
         # .pdf
         if file_path.endswith('.pdf'):
+            """
             try:  # 防止读取 PDF 超时阻塞 使用 pdf2txt.py
                 content = pdf2text(file_path)
                 if content.strip():  # 排除无文字读取的 PDF
                     content_all.append(content)
             except func_timeout.exceptions.FunctionTimedOut:
                 content_all.append(file_path + ' 读取超时!')
-            '''
+            """
             try:  # 防止读取 PDF 超时阻塞 使用 PDFMiner
                 content = readPDF(file_path)
                 content_all.append(content)
             except func_timeout.exceptions.FunctionTimedOut:
                 content_all.append(file_path + ' 读取超时!')
-            '''
         # .docx
         if file_path.endswith('.docx'):
             try:
@@ -234,11 +243,31 @@ def readPDF(file_path):
         return '\n'.join(content_cleaned)
 
 
+"""
 @func_set_timeout(5)  # 设定超时限制5s  http://www.cnblogs.com/hester/p/7641258.html
-def pdf2text(file_path):
+def pdf2text(file_path):            # macOS
     # 路径修改
     cmd = 'python ' + '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/pdf2txt.py ' \
               + file_path
     output_text = os.popen(cmd)
     return output_text.read()
+"""
 
+
+@func_set_timeout(5)
+def pdf2text(file_path):            # Windows
+    cmd = ['python', os.getcwd() + "\\pdf2txt.py", file_path]
+    output_text = subprocess.check_output(cmd).decode("utf-8")
+    return output_text
+
+
+def doc2docx(doc_name):
+    docx_name = doc_name + "x"
+    if not os.path.exists(docx_name):
+        # 首先将doc转换成docx
+        word = client.Dispatch("Word.Application")
+        doc = word.Documents.Open(doc_name)
+        # 使用参数16表示将doc转换成docx
+        doc.SaveAs(docx_name, 16)
+        doc.Close()
+        word.Quit()

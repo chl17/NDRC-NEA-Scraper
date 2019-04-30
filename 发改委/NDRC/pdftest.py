@@ -10,4 +10,4 @@ def readPDF(file_paths):
 
 if __name__ == '__main__':
     file_list = [r"C:\Users\haoli\PycharmProjects\SRT\发改委\NDRC\test_files\test.pdf"]
-    readPDF(file_list)
+    print(readPDF(file_list))

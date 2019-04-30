@@ -1,4 +1,4 @@
-# 爬虫 V1.0
+# NDRC & NEA Scraper V0.1
 
 ## 框架
 
@@ -14,6 +14,14 @@ Scrapy
 ## 网页Rendering
 
 * Splash（运行在Docker中）
+
+### Installation
+
+`docker pull scrapinghub/splash`
+
+### Run
+
+`docker run -it -p 8050:8050 scrapinghub/splash`
 
 网页中含有动态渲染内容（JavaScript等），需要完成渲染后再提取网页内容，也就是说在浏览器中观察到的动态渲染的部分实际上并不会在直接获取的网页源码中呈现，因此需要一个统一的渲染器（也即浏览器）处理动态渲染内容。
 
@@ -43,12 +51,16 @@ Scrapy
 
 接受Scrapy写入数据时进行中文分词并根据文章标题、正文、附件内容生成搜索建议。
 
+## ElasticSearch-RTF
+
+[https://github.com/medcl/elasticsearch-rtf](ElasticSearch-RTF)
+
 # ReactiveSearch
 
 一个开源的ElasticSearch搜索引擎前端。
 
 官方网站：[https://opensource.appbase.io/reactivesearch/](https://opensource.appbase.io/reactivesearch/)
-[](https://github.com/appbaseio/reactivesearch)[https://github.com/appbaseio/reactivesearch](https://github.com/appbaseio/reactivesearch)
+GitHub：[https://github.com/appbaseio/reactivesearch](https://github.com/appbaseio/reactivesearch)
 
 多种可自定义模块，包括搜索框，过滤器（日期、内容）等等，详情在官网和GitHub的介绍中
 
