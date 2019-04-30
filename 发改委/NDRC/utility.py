@@ -236,7 +236,8 @@ def readPDF(file_path):
 
 @func_set_timeout(5)  # 设定超时限制5s  http://www.cnblogs.com/hester/p/7641258.html
 def pdf2text(file_path):
-    cmd = 'python3 ' + '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/pdf2txt.py ' \
+    # 路径修改
+    cmd = 'python ' + '/Users/chenhaolin/PycharmProjects/SRT/发改委/NDRC/pdf2txt.py ' \
               + file_path
     output_text = os.popen(cmd)
     return output_text.read()

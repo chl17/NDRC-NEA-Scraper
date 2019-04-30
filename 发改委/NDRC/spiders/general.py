@@ -98,7 +98,8 @@ class GeneralSpider(scrapy.Spider):                                             
                 yield SplashRequest(url=linklist[i], callback=self.parse_content,
                                     meta={'date': datelist[i], 'title': titlelist[i],
                                           'class0': determine_class0(response.url),
-                                          'class1': determine_class1(response.url)},
+                                          'class1': determine_class1(response.url),
+                                          "deltafetch_key": request_fingerprint(response.request)},  # 增量传递指纹
                                     splash_headers={"User-Agent": USER_AGENT, "Referer": response.url})
             next = response.urljoin(response.xpath('//li//a[text()="下一页"]/@href').extract_first())
         """
